@@ -1,86 +1,174 @@
-<div class="admin-wrapper">
-    <aside class="admin-sidebar">
-        <div class="admin-logo">DASHBOARD</div>
-        <nav>
-            <a href="#music" class="side-link">🎵 Music</a>
-            <a href="#merch" class="side-link">👕 Merch</a>
-            <a href="#news" class="side-link">📢 News</a>
-            <a href="/logout" class="side-link logout">Logout</a>
-        </nav>
-    </aside>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 
-    <main class="admin-content">
-        <section id="music" class="admin-section glass-card">
-            <h2>Add Track</h2>
-            <form action="/admin/add-track" method="POST" class="admin-form">
-                <div class="form-row">
-                    <input type="text" name="title" placeholder="Track Name">
-                    <input type="text" name="url" placeholder="Audio Link (.mp3)">
-                </div>
-                <button type="submit" class="bronze-btn">Save Track</button>
-            </form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Dashboard | Official Website of Rhyma</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/rhyma(black).png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
 
-            <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0;">
+<body class="admin-page">
+    {% include '_loader.html' %}
+    {% include '_flash.html' %}
 
-            <h3>Spotify Integration</h3>
-            <form action="/admin/sync-spotify" method="POST" class="admin-form"
-                style="display: inline-block; margin-right: 1rem;">
-                <button type="submit" class="bronze-btn" style="background: #1DB954; color: white;">Sync Latest Releases
-                    from Spotify</button>
-            </form>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">DASHBOARD</div>
+            <p class="admin-user"><i class="fa-regular fa-user"></i> {{ current_user.username }}</p>
+            <nav>
+                <a href="#music" class="side-link"><i class="fa-solid fa-music"></i> Music</a>
+                <a href="#merch" class="side-link"><i class="fa-solid fa-shirt"></i> Merch</a>
+                <a href="{{ url_for('home') }}" class="side-link" target="_blank" rel="noopener"><i
+                        class="fa-solid fa-arrow-up-right-from-square"></i> View Site</a>
+                <a href="{{ url_for('logout') }}" class="side-link logout"><i
+                        class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
 
-            <form action="/admin/settings" method="POST" class="admin-form" style="margin-top: 1rem;">
-                <label for="artist_id" style="display: block; margin-bottom: 0.5rem;">Spotify Artist ID (Optional
-                    overrides env):</label>
-                <div class="form-row">
-                    <input type="text" name="artist_id" placeholder="Enter Artist ID" style="flex: 1;" value="{{ settings.artist_id if settings and settings.artist_id else '' }}">
-                    <button type="submit" class="bronze-btn" style="width: auto;">Save Spotify Settings</button>
-                </div>
-            </form>
-
-            <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0;">
-
-            <h3>YouTube Integration</h3>
-            <form action="/admin/sync-youtube" method="POST" class="admin-form"
-                style="display: inline-block; margin-right: 1rem;">
-                <button type="submit" class="bronze-btn" style="background: #FF0000; color: white;"><i class="fa-brands fa-youtube"></i> Sync Latest Video from YouTube</button>
-            </form>
-
-            <form action="/admin/youtube-settings" method="POST" class="admin-form" style="margin-top: 1rem;">
-                <label style="display: block; margin-bottom: 0.5rem;">YouTube Channel ID / Video Override:</label>
-                <div class="form-row">
-                    <input type="text" name="youtube_channel_id" placeholder="Channel ID (e.g. UCDew3CMxwN0A7VRLHOwXLBw)" style="flex: 1;" value="{{ settings.youtube_channel_id if settings and settings.youtube_channel_id else '' }}">
-                    <input type="text" name="latest_youtube_id" placeholder="Video ID or URL (Optional override)" style="flex: 1;" value="{{ settings.latest_youtube_id if settings and settings.latest_youtube_id else '' }}">
-                    <button type="submit" class="bronze-btn" style="width: auto;">Save YouTube Settings</button>
-                </div>
-            </form>
-        </section>
-
-        <section id="merch" class="admin-section glass-card">
-            <h2>Add New Merch</h2>
-            <form action="/admin/add-merch" method="POST" enctype="multipart/form-data" class="admin-form">
-                <div class="form-row">
-                    <input type="text" name="name" placeholder="Item Name" required>
-                    <input type="number" name="price" placeholder="Price" step="0.01" required>
-                </div>
-
-                <div class="file-input-wrapper">
-                    <label for="merch-img">Product Image:</label>
-                    <input type="file" id="merch-img" name="image" accept="image/*" required>
-                </div>
-
-                <button type="submit" class="bronze-btn">Upload & Save Product</button>
-            </form>
-        </section>
-
-        <div class="current-list">
-            <h3>Current Merch</h3>
-            {% for product in products %}
-            <div class="admin-item">
-                <span>{{ product.name }} - ${{ product.price }}</span>
-                <form action="{{ url_for('delete_merch', id=product.id) }}" method="POST">
-                    <button type="submit" class="delete-icon">×</button>
+        <main class="admin-content page-enter">
+            <section id="music" class="admin-section glass-card">
+                <h2>Add Track</h2>
+                <form action="{{ url_for('add_track') }}" method="POST" class="admin-form">
+                    <div class="form-row">
+                        <input type="text" name="title" placeholder="Track Name" maxlength="100" required>
+                        <input type="url" name="url" placeholder="Audio / Streaming Link" maxlength="200">
+                    </div>
+                    <button type="submit" class="bronze-btn" data-loading-text="Saving">Save Track</button>
                 </form>
-            </div>
-            {% endfor %}
-        </div>
+
+                {% if tracks %}
+                <div class="current-list">
+                    <h3>Saved Tracks</h3>
+                    {% for track in tracks %}
+                    <div class="admin-item">
+                        <span>
+                            {{ track.title }}
+                            {% if track.is_new_release %}<span class="admin-badge">Latest Release</span>{% endif %}
+                        </span>
+                        {% if track.audio_url %}
+                        <a href="{{ track.audio_url }}" target="_blank" rel="noopener" class="admin-link"
+                            title="Open link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <hr class="admin-divider">
+
+                <h3>Spotify Integration</h3>
+                <form action="{{ url_for('sync_spotify_route') }}" method="POST" class="admin-form admin-inline-form">
+                    <button type="submit" class="bronze-btn btn-spotify" data-loading-text="Syncing with Spotify">
+                        <i class="fa-brands fa-spotify"></i> Sync Latest Releases from Spotify</button>
+                </form>
+
+                <form action="{{ url_for('update_settings') }}" method="POST" class="admin-form">
+                    <label for="artist_id" class="admin-label">Spotify Artist ID (optional, overrides env):</label>
+                    <div class="form-row">
+                        <input type="text" id="artist_id" name="artist_id" placeholder="Enter Artist ID"
+                            value="{{ settings.artist_id if settings and settings.artist_id else '' }}">
+                        <button type="submit" class="bronze-btn btn-auto" data-loading-text="Saving">Save Spotify
+                            Settings</button>
+                    </div>
+                </form>
+
+                <hr class="admin-divider">
+
+                <h3>YouTube Integration</h3>
+                {% if settings and settings.latest_youtube_id %}
+                <p class="admin-hint">
+                    Currently featured:
+                    <a href="https://www.youtube.com/watch?v={{ settings.latest_youtube_id }}" target="_blank"
+                        rel="noopener">{{ settings.latest_youtube_title or settings.latest_youtube_id }}</a>
+                </p>
+                {% endif %}
+                <form action="{{ url_for('sync_youtube_route') }}" method="POST" class="admin-form admin-inline-form">
+                    <button type="submit" class="bronze-btn btn-youtube" data-loading-text="Syncing with YouTube">
+                        <i class="fa-brands fa-youtube"></i> Sync Latest Video from YouTube</button>
+                </form>
+
+                <form action="{{ url_for('update_youtube_settings') }}" method="POST" class="admin-form">
+                    <label class="admin-label">YouTube Channel ID / Video Override:</label>
+                    <div class="form-row">
+                        <input type="text" name="youtube_channel_id"
+                            placeholder="Channel ID (e.g. UCDew3CMxwN0A7VRLHOwXLBw)"
+                            value="{{ settings.youtube_channel_id if settings and settings.youtube_channel_id else '' }}">
+                        <input type="text" name="latest_youtube_id" placeholder="Video ID or URL (optional override)"
+                            value="{{ settings.latest_youtube_id if settings and settings.latest_youtube_id else '' }}">
+                        <button type="submit" class="bronze-btn btn-auto" data-loading-text="Saving">Save YouTube
+                            Settings</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="merch" class="admin-section glass-card">
+                <h2>Add New Merch</h2>
+                <form action="{{ url_for('add_merch') }}" method="POST" enctype="multipart/form-data"
+                    class="admin-form">
+                    <div class="form-row">
+                        <input type="text" name="name" placeholder="Item Name" maxlength="100" required>
+                        <input type="number" name="price" placeholder="Price (ZAR)" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="file-input-wrapper">
+                        <label for="merch-img">Product Image (PNG, JPG, GIF or WEBP, max 8 MB):</label>
+                        <input type="file" id="merch-img" name="image" accept="image/png,image/jpeg,image/gif,image/webp"
+                            required>
+                        <img id="merch-preview" class="merch-preview" alt="" hidden>
+                    </div>
+
+                    <button type="submit" class="bronze-btn" data-loading-text="Uploading">Upload & Save
+                        Product</button>
+                </form>
+
+                <div class="current-list">
+                    <h3>Current Merch</h3>
+                    {% for product in products %}
+                    <div class="admin-item">
+                        <span>{{ product.name }} - R {{ '%.2f' | format(product.price) }}</span>
+                        <form action="{{ url_for('delete_merch', id=product.id) }}" method="POST"
+                            onsubmit="return confirm('Delete this product?');">
+                            <button type="submit" class="delete-icon" aria-label="Delete {{ product.name }}"
+                                title="Delete">×</button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <p class="admin-hint">No products yet.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            var input = document.getElementById('merch-img');
+            var preview = document.getElementById('merch-preview');
+            input.addEventListener('change', function () {
+                var file = input.files && input.files[0];
+                if (!file) {
+                    preview.hidden = true;
+                    return;
+                }
+                if (file.size > 8 * 1024 * 1024) {
+                    alert('That image is larger than 8 MB. Please choose a smaller file.');
+                    input.value = '';
+                    preview.hidden = true;
+                    return;
+                }
+                preview.src = URL.createObjectURL(file);
+                preview.hidden = false;
+            });
+        })();
+    </script>
+</body>
+
+</html>

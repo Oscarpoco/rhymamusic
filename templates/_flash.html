@@ -1,0 +1,25 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="toast-stack" role="status" aria-live="polite">
+    {% for category, message in messages %}
+    <div class="toast toast-{{ 'error' if category == 'error' else 'success' }}">
+        <i class="fa-solid {{ 'fa-circle-exclamation' if category == 'error' else 'fa-circle-check' }}" aria-hidden="true"></i>
+        <span>{{ message }}</span>
+        <button type="button" class="toast-close" aria-label="Dismiss">&times;</button>
+    </div>
+    {% endfor %}
+</div>
+<script>
+    (function () {
+        document.querySelectorAll('.toast').forEach(function (toast, i) {
+            function dismiss() {
+                toast.classList.add('toast-hide');
+                setTimeout(function () { toast.remove(); }, 300);
+            }
+            toast.querySelector('.toast-close').addEventListener('click', dismiss);
+            setTimeout(dismiss, 6000 + i * 800);
+        });
+    })();
+</script>
+{% endif %}
+{% endwith %}

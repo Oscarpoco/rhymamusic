@@ -25,7 +25,7 @@
 
         <div class="form-group">
             <label for="budget">Budget Offer (ZAR)</label>
-            <input type="number" id="budget" name="budget" placeholder="e.g. 50000" required>
+            <input type="number" id="budget" name="budget" placeholder="e.g. 50000" min="0" step="any" required>
         </div>
 
         <div class="form-group">
@@ -37,28 +37,34 @@
     </form>
 
     <script>
+        (function () {
+            const dateInput = document.getElementById('event_date');
+            const today = new Date();
+            today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+            dateInput.min = today.toISOString().split('T')[0];
+        })();
+
         function handleBookingSubmit(event) {
             event.preventDefault();
 
-            const contactPerson = document.getElementById('contact_person').value;
+            const contactPerson = document.getElementById('contact_person').value.trim();
             const eventDate = document.getElementById('event_date').value;
-            const venueName = document.getElementById('venue_name').value;
+            const venueName = document.getElementById('venue_name').value.trim();
             const budget = document.getElementById('budget').value;
-            const details = document.getElementById('details').value;
+            const details = document.getElementById('details').value.trim();
 
             if (!contactPerson || !eventDate || !venueName || !budget) {
                 showCustomAlert('Missing Fields', 'Please fill in all required fields.');
                 return;
             }
 
-            const subject = `Booking Inquiry: ${eventDate} @ ${venueName}`;
-            const body = `Contact Person: ${contactPerson}\nEvent Date: ${eventDate}\nVenue: ${venueName}\nBudget: R${budget}\n\nDetails:\n${details}`;
+            openMailDraft(
+                'bookings@rhymamusic.co.za',
+                `Booking Inquiry: ${eventDate} @ ${venueName}`,
+                `Contact Person: ${contactPerson}\nEvent Date: ${eventDate}\nVenue: ${venueName}\nBudget: R${budget}\n\nDetails:\n${details}`
+            );
 
-            const mailtoLink = `mailto:bookings@rhymamusic.co.za?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-            window.location.href = mailtoLink;
-
-            showCustomAlert('Thank You', 'We have received your booking inquiry.');
+            showCustomAlert('Almost Done', 'Your email app should now open with your booking inquiry ready. Just press send to reach us at bookings@rhymamusic.co.za.');
             document.getElementById('bookingForm').reset();
         }
     </script>

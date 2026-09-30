@@ -1,0 +1,75 @@
+<div id="page-progress" aria-hidden="true"></div>
+<div id="page-loader" aria-hidden="true">
+    <div class="loader-mark">
+        <span class="loader-ring"></span>
+        <span class="loader-text">Rhyma</span>
+    </div>
+</div>
+<script>
+    (function () {
+        var root = document.documentElement;
+        var safetyTimer = null;
+
+        function startNavigation() {
+            root.classList.add('is-navigating');
+            clearTimeout(safetyTimer);
+            // Downloads or cancelled navigations never unload the page.
+            safetyTimer = setTimeout(stopNavigation, 12000);
+        }
+
+        function stopNavigation() {
+            clearTimeout(safetyTimer);
+            root.classList.remove('is-navigating');
+            document.querySelectorAll('.is-loading').forEach(function (btn) {
+                btn.classList.remove('is-loading');
+                btn.disabled = false;
+                if (btn.dataset.originalText) {
+                    btn.innerHTML = btn.dataset.originalText;
+                }
+            });
+        }
+
+        window.startPageLoader = startNavigation;
+        window.stopPageLoader = stopNavigation;
+
+        // Runs on first load and when restored from the back/forward cache.
+        window.addEventListener('pageshow', stopNavigation);
+
+        document.addEventListener('click', function (e) {
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            var link = e.target.closest('a[href]');
+            if (!link) return;
+            if (link.target && link.target !== '_self') return;
+            if (link.hasAttribute('download') || link.hasAttribute('data-no-loader')) return;
+
+            var url;
+            try { url = new URL(link.href, window.location.href); } catch (err) { return; }
+            if (url.origin !== window.location.origin) return;
+            if (url.hash && url.pathname === window.location.pathname && url.search === window.location.search) return;
+
+            startNavigation();
+        });
+
+        document.addEventListener('submit', function (e) {
+            if (e.defaultPrevented) return;
+            var form = e.target;
+            var action = form.getAttribute('action') || '';
+            if (action.indexOf('mailto:') === 0 || (form.target && form.target !== '_self')) return;
+
+            startNavigation();
+
+            var btn = e.submitter || form.querySelector('[type="submit"]');
+            if (btn) {
+                // Deferred so the button is still part of the submitted form data.
+                setTimeout(function () {
+                    btn.classList.add('is-loading');
+                    btn.disabled = true;
+                    if (btn.dataset.loadingText) {
+                        btn.dataset.originalText = btn.innerHTML;
+                        btn.textContent = btn.dataset.loadingText;
+                    }
+                }, 0);
+            }
+        });
+    })();
+</script>

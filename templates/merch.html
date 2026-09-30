@@ -26,9 +26,12 @@
             <div class="product-info" style="padding: 1.5rem; text-align: left;">
                 <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;">{{ product.name }}</h3>
                 <p style="color: var(--accent-color); font-weight: bold; font-size: 1.1rem; margin-bottom: 1rem;">R {{
-                    product.price }}</p>
+                    '%.2f' | format(product.price) }}</p>
                 <div style="display: flex; gap: 0.5rem;">
-                    <button class="buy-btn" style="flex: 1;">Add to Cart</button>
+                    <button type="button" class="buy-btn order-btn" style="flex: 1;"
+                        data-name="{{ product.name }}" data-price="{{ '%.2f' | format(product.price) }}">
+                        <i class="fa-regular fa-envelope"></i> Order via Email
+                    </button>
                 </div>
             </div>
         </div>
@@ -54,13 +57,32 @@
             <script>
                 function handleNotifyClick(event) {
                     event.preventDefault();
-                    const mailtoLink = "mailto:newrelease@rhymamusic.co.za?subject=Notify%20Me:%20Rhyma%20Merch%20Drop&body=Hi%20Rhyma%20Team,%0D%0A%0D%0APlease%20notify%20me%20when%20the%20new%20merchandise%20drop%20goes%20live.%0D%0A%0D%0AThanks!";
-                    window.location.href = mailtoLink;
-                    showCustomAlert('Thank You', 'We have received your notification request.');
+                    openMailDraft(
+                        'newrelease@rhymamusic.co.za',
+                        'Notify Me: Rhyma Merch Drop',
+                        'Hi Rhyma Team,\r\n\r\nPlease notify me when the new merchandise drop goes live.\r\n\r\nThanks!'
+                    );
+                    showCustomAlert('Almost Done', 'Your email app should now open with your request ready. Just press send and we will let you know when the drop goes live.');
                 }
             </script>
         </div>
     </div>
     {% endif %}
 </section>
+
+<script>
+    document.querySelectorAll('.order-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var name = btn.dataset.name;
+            var price = btn.dataset.price;
+            openMailDraft(
+                'enquiries@rhymamusic.co.za',
+                'Merch Order: ' + name,
+                'Hi Rhyma Team,\n\nI would like to order:\n\nItem: ' + name + '\nPrice: R ' + price +
+                '\nSize (if applicable): \nQuantity: 1\n\nName: \nDelivery address: \n\nThanks!'
+            );
+            showCustomAlert('Almost Done', 'Your email app should now open with your order ready. Fill in your details and press send.');
+        });
+    });
+</script>
 {% endblock %}

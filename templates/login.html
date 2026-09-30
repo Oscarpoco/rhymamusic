@@ -1,40 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Admin Login | Official Website of Rhyma</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/rhyma(black).png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;500&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
 <body class="login-page">
+    {% include '_loader.html' %}
+    {% include '_flash.html' %}
 
-    <div class="login-container">
+    <div class="login-container page-enter">
         <div class="glass-card login-box">
-            <div class="logo">BRONZE<span>ADMIN</span></div>
+            <div class="logo login-logo">RHYMA<span>ADMIN</span></div>
             <h2>Identity Verification</h2>
 
-            <form method="POST" action="/login">
+            <form method="POST" action="{{ url_for('login', next=request.args.get('next')) }}">
                 <div class="input-group">
                     <label for="username">Manager Username</label>
-                    <input type="text" id="username" name="username" required autocomplete="off">
+                    <input type="text" id="username" name="username" value="{{ username or '' }}" required
+                        autocomplete="username" autocapitalize="none" spellcheck="false" {% if not username %}autofocus{% endif %}>
                 </div>
 
                 <div class="input-group">
                     <label for="password">Access Key</label>
-                    <input type="password" id="password" name="password" required>
+                    <div class="password-field">
+                        <input type="password" id="password" name="password" required autocomplete="current-password"
+                            {% if username %}autofocus{% endif %}>
+                        <button type="button" class="password-toggle" aria-label="Show password"
+                            onclick="togglePassword(this)"><i class="fa-regular fa-eye"></i></button>
+                    </div>
                 </div>
 
-                <button type="submit" class="login-btn">Authorize Access</button>
+                <button type="submit" class="login-btn" data-loading-text="Verifying">Authorize Access</button>
             </form>
 
-            <a href="/" class="back-link">← Return to Public Site</a>
+            <a href="{{ url_for('home') }}" class="back-link">← Return to Public Site</a>
         </div>
     </div>
 
+    <script>
+        function togglePassword(btn) {
+            var input = document.getElementById('password');
+            var show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+            btn.innerHTML = show ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+        }
+    </script>
 </body>
 
 </html>

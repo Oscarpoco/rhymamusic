@@ -51,7 +51,7 @@
                 <!-- Timer will be injected here -->
             </div>
             
-            <form action="mailto:newrelease@rhymamusic.co.za" method="post" enctype="text/plain" class="presave-form">
+            <form id="waitlistForm" class="presave-form" onsubmit="handleWaitlistSubmit(event)">
                 <input type="email" name="email" placeholder="Enter your email to join the waitlist" required
                     style="padding: 1rem; border: none; min-width: 250px; color: var(--text-color); background-color: var(--bg-color); border-radius: 8px;">
                 <button type="submit" style="padding: 1rem 2rem; border: none; background: var(--accent-color); color: #fff; border-radius: 8px; cursor: pointer; font-weight: bold;">Notify Me</button>
@@ -64,6 +64,21 @@
 
 {% block scripts %}
 <script>
+function handleWaitlistSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.elements.email.value.trim();
+    if (!email) return;
+
+    openMailDraft(
+        'newrelease@rhymamusic.co.za',
+        'Join the Waitlist: Next Rhyma Single',
+        `Hi Rhyma Team,\n\nPlease add me to the waitlist for the next release.\n\nEmail: ${email}\n\nThanks!`
+    );
+    showCustomAlert('Almost Done', 'Your email app should now open with your waitlist request ready. Just press send to join.');
+    form.reset();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Array of upcoming drop dates (March 6th, 13th, 20th, 27th, 2026)
     const dropDates = [
@@ -76,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const timerElement = document.getElementById("countdown-timer");
     const announcementElement = document.getElementById("drop-announcement");
 
+    let timerId = null;
+
     function updateTimer() {
         const now = new Date().getTime();
         
@@ -85,7 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!nextDrop) {
             timerElement.innerHTML = "<div>All March singles have dropped!</div>";
             announcementElement.innerText = "The Drops Are Complete";
-            return;
+            if (timerId) clearInterval(timerId);
+            return false;
         }
 
         const distance = nextDrop - now;
@@ -115,8 +133,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Update timer immediately, then every second
-    updateTimer();
-    setInterval(updateTimer, 1000);
+    if (updateTimer() !== false) {
+        timerId = setInterval(updateTimer, 1000);
+    }
 });
 </script>
 {% endblock %}

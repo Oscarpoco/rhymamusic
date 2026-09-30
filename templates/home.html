@@ -23,7 +23,7 @@
 
 <section class="featured-preview">
     <div class="container">
-        {% if latest_single %}
+        {% if latest_single and latest_single.audio_url and 'open.spotify.com/' in latest_single.audio_url %}
         <h2>Latest Single</h2>
         <div class="video-container" style="display: flex; justify-content: center; margin-bottom: 2rem;">
             <iframe style="border-radius:12px"
@@ -36,8 +36,8 @@
 
         <h2>New Release Video</h2>
         <div class="video-container" style="display: flex; justify-content: center; margin-bottom: 2rem;">
-            <iframe width="100%" height="352" src="https://www.youtube.com/embed/{{ latest_video.youtube_id if latest_video else 'prZ-ErkCkNw' }}" title="{{ latest_video.title if latest_video else 'New Release Video' }}"
-                frameborder="0"
+            <iframe width="100%" height="352" src="https://www.youtube.com/embed/{{ latest_video.youtube_id if latest_video else default_youtube_id }}" title="{{ latest_video.title if latest_video else 'New Release Video' }}"
+                frameborder="0" loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen style="border-radius: 12px; max-width: 800px;"></iframe>
         </div>
@@ -93,52 +93,6 @@
             <p>Out Now on All Platforms</p>
             <a href="https://youtube.com/rhymangn" target="_blank" class="text-link">Stream on YouTube <i
                     class="fa-brands fa-youtube"></i> &rarr;</a>
-        </div>
-    </div>
-
-    <!-- Modal for album management -->
-    <div id="album-modal" class="album-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Album Management</h3>
-            <div class="modal-options">
-                <button class="modal-btn" data-action="add">1. Add new album title</button>
-                <button class="modal-btn" data-action="change">2. Change album title</button>
-                <button class="modal-btn" data-action="remove">3. Remove album title</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Change album title modal -->
-    <div id="change-album-modal" class="album-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Change Album Title</h3>
-            <p>Select the album title you want to change it to:</p>
-            <select id="album-select">
-                <option value="">-- Select Album --</option>
-            </select>
-            <div class="modal-section">
-                <label for="change-image-input">Select Image:</label>
-                <input type="file" id="change-image-input" accept="image/*" multiple>
-                <div id="change-selected-images" class="selected-images-preview"></div>
-            </div>
-            <button id="confirm-change-btn" class="modal-btn">Confirm</button>
-        </div>
-    </div>
-
-    <!-- Add new album title modal -->
-    <div id="add-album-modal" class="album-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Add New Album Title</h3>
-            <input type="text" id="new-album-input" placeholder="Enter new album title">
-            <div class="modal-section">
-                <label for="add-image-input">Select Images:</label>
-                <input type="file" id="add-image-input" accept="image/*" multiple>
-                <div id="add-selected-images" class="selected-images-preview"></div>
-            </div>
-            <button id="confirm-add-btn" class="modal-btn">Add Album</button>
         </div>
     </div>
 </section>
