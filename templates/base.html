@@ -40,7 +40,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://use.hugeicons.com" crossorigin>
+    <link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
@@ -127,20 +128,7 @@
             <div class="footer-section">
                 <h4>Rhyma</h4>
                 <p class="footer-tagline">Defining the New Sound of Luxury.</p>
-                <div class="footer-social">
-                    <a href="https://x.com/rhymangn" target="_blank" rel="noopener" title="X (Twitter)"
-                        aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="https://music.apple.com/us/artist/rhyma/1232075857" target="_blank" rel="noopener"
-                        title="Apple Music" aria-label="Apple Music"><i class="fa-brands fa-apple"></i></a>
-                    <a href="https://www.tiktok.com/@rhymangn" target="_blank" rel="noopener" title="TikTok"
-                        aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="https://www.instagram.com/rhymangn" target="_blank" rel="noopener" title="Instagram"
-                        aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://youtube.com/rhymangn" target="_blank" rel="noopener" title="YouTube"
-                        aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="https://open.spotify.com/search/RHYMA" target="_blank" rel="noopener" title="Spotify"
-                        aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-                </div>
+                {% with social_class='footer-social' %}{% include '_social.html' %}{% endwith %}
             </div>
 
             <div class="footer-section">
@@ -166,13 +154,14 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" type="button" title="Go to top" aria-label="Back to top">↑</button>
+    <button id="back-to-top" type="button" title="Go to top" aria-label="Back to top"><i
+            class="hgi hgi-stroke hgi-arrow-up-02" aria-hidden="true"></i></button>
 
     <!-- Custom Alert Modal -->
     <div id="custom-alert" class="custom-alert" role="dialog" aria-modal="true" aria-labelledby="alert-title"
         aria-hidden="true">
         <div class="custom-alert-box">
-            <i class="fa-regular fa-envelope custom-alert-icon" aria-hidden="true"></i>
+            <i class="hgi hgi-stroke hgi-mail-send-01 custom-alert-icon" aria-hidden="true"></i>
             <h3 id="alert-title">Notification</h3>
             <p id="alert-message"></p>
             <button type="button" onclick="closeCustomAlert()" class="buy-btn custom-alert-btn">OK</button>

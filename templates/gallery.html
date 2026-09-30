@@ -4,10 +4,10 @@
 
 {% block content %}
 <div class="container gallery-page" style="padding-top: 2rem; padding-bottom: 4rem;">
-    <div style="text-align: center; margin-bottom: 3rem;">
-        <h1 style="font-family: var(--font-heading); font-size: 2.5rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;">Gallery</h1>
-        <p style="color: var(--accent-color); letter-spacing: 3px; font-size: 0.9rem; text-transform: uppercase;">Visual Journey & Studio Archives</p>
-    </div>
+    <header class="page-header">
+        <h1>Gallery</h1>
+        <p class="page-subtitle">Visual Journey & Studio Archives</p>
+    </header>
 
     <!-- Gallery Grid -->
     <div class="gallery-grid">
@@ -18,7 +18,7 @@
                 onload="this.classList.add('is-loaded')" onerror="this.classList.add('is-loaded')">
             <div class="gallery-overlay">
                 <span class="gallery-overlay-title">{{ img.title }}</span>
-                <span class="gallery-overlay-hint"><i class="fa-solid fa-expand"></i> View Full Screen</span>
+                <span class="gallery-overlay-hint"><i class="hgi hgi-stroke hgi-maximize-screen" aria-hidden="true"></i> View Full Screen</span>
             </div>
         </button>
         {% endfor %}
@@ -27,9 +27,9 @@
 
 <!-- Lightbox Modal -->
 <div id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
-    <button type="button" class="lightbox-btn lightbox-close" aria-label="Close">&times;</button>
-    <button type="button" class="lightbox-btn lightbox-prev" aria-label="Previous image"><i class="fa-solid fa-chevron-left"></i></button>
-    <button type="button" class="lightbox-btn lightbox-next" aria-label="Next image"><i class="fa-solid fa-chevron-right"></i></button>
+    <button type="button" class="lightbox-btn lightbox-close" aria-label="Close"><i class="hgi hgi-stroke hgi-cancel-01" aria-hidden="true"></i></button>
+    <button type="button" class="lightbox-btn lightbox-prev" aria-label="Previous image"><i class="hgi hgi-stroke hgi-arrow-left-01" aria-hidden="true"></i></button>
+    <button type="button" class="lightbox-btn lightbox-next" aria-label="Next image"><i class="hgi hgi-stroke hgi-arrow-right-01" aria-hidden="true"></i></button>
     <figure class="lightbox-figure">
         <div class="lightbox-spinner" aria-hidden="true"></div>
         <img id="lightbox-img" src="" alt="">
@@ -43,7 +43,8 @@
 <style>
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 340px));
+    justify-content: center;
     gap: 1.8rem;
 }
 .gallery-item {
@@ -205,7 +206,7 @@
 .lightbox-close {
     top: 1.5rem;
     right: 2rem;
-    font-size: 2.5rem;
+    font-size: 2rem;
     line-height: 1;
 }
 .lightbox-prev,

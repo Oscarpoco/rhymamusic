@@ -726,7 +726,7 @@ footer {
     font-weight: bold;
 }
 
-[data-theme="dark"] button[type="submit"] {
+:where([data-theme="dark"] button[type="submit"]) {
     color: var(--bg-color);
     /* Black text on white background context */
 }
@@ -760,7 +760,7 @@ label {
     letter-spacing: 0.05em;
 }
 
-button[type="submit"] {
+:where(button[type="submit"]) {
     background-color: var(--text-color);
     color: #fff;
     border: none;
@@ -1749,5 +1749,507 @@ footer .container {
     .admin-inline-form {
         display: flex;
         margin-right: 0;
+    }
+}
+
+/* =========================================================
+   Design refresh
+   ========================================================= */
+:root {
+    --radius: 14px;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    --card-shadow-hover: 0 18px 40px rgba(197, 160, 89, 0.22);
+    --accent-soft: rgba(197, 160, 89, 0.4);
+}
+
+[data-theme="dark"] {
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Icons: lift on hover */
+.hgi {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: -0.125em;
+    transition: transform 0.3s var(--ease-out), color 0.3s ease;
+}
+
+a:hover .hgi,
+button:hover .hgi,
+a:focus-visible .hgi,
+button:focus-visible .hgi {
+    transform: translateY(-3px);
+}
+
+/* Social icon buttons */
+.social-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.social-icons .social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin: 0;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1.3rem;
+    transition: transform 0.3s var(--ease-out), color 0.3s ease, border-color 0.3s ease,
+        box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.social-icons .social-btn:hover,
+.social-icons .social-btn:focus-visible {
+    transform: translateY(-5px);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 20px rgba(197, 160, 89, 0.25);
+    outline: none;
+}
+
+.social-icons .social-btn:hover .hgi,
+.social-icons .social-btn:focus-visible .hgi {
+    transform: scale(1.1);
+}
+
+.hero-social {
+    margin-top: 2.5rem;
+}
+
+.hero .social-btn {
+    background-color: color-mix(in srgb, var(--bg-color) 60%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.footer-social {
+    justify-content: flex-start;
+    font-size: inherit;
+}
+
+.footer-social .social-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+}
+
+.contact-social {
+    margin-top: 1.25rem;
+}
+
+/* Page + section headings */
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-header h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    color: var(--accent-color);
+    letter-spacing: 0.3em;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.page-header::after,
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background-color: var(--accent-color);
+    margin: 1.25rem auto 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    margin: 4rem 0 2rem;
+}
+
+.featured-preview .container> :first-child {
+    margin-top: 3rem;
+}
+
+/* Media embeds */
+.media-frame {
+    margin: 0 auto 2rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    background-color: var(--secondary-bg);
+}
+
+.media-frame iframe {
+    display: block;
+    border: 0;
+}
+
+.media-frame-narrow {
+    max-width: 800px;
+    border-radius: 12px;
+}
+
+.media-frame-video {
+    max-width: 860px;
+    aspect-ratio: 16 / 9;
+}
+
+.media-frame-video iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* Featured project cards (centered, scroll when they don't fit) */
+.album-images-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 2rem;
+    overflow-x: auto;
+    padding: 1rem 1rem 2rem;
+    margin-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+}
+
+.album-item:first-child {
+    margin-left: auto;
+}
+
+.album-item:last-child {
+    margin-right: auto;
+}
+
+.album-item {
+    width: min(332px, 82vw);
+    padding: 16px;
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    scroll-snap-align: center;
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.album-item:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--accent-soft);
+}
+
+.album-item iframe {
+    display: block;
+    width: 100%;
+    height: 352px;
+    border: 0;
+    border-radius: 12px;
+}
+
+/* Buttons */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 6px;
+    transition: transform 0.3s var(--ease-out), background-color 0.3s ease, border-color 0.3s ease,
+        color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(197, 160, 89, 0.3);
+}
+
+.cta-small {
+    width: 100%;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    margin-top: 1rem;
+}
+
+.buy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 6px;
+    transition: transform 0.3s var(--ease-out), background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.buy-btn:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    transform: translateY(-2px);
+}
+
+.buy-btn-solid {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
+    padding: 1rem 2rem;
+}
+
+.buy-btn-solid:hover {
+    background-color: var(--text-color);
+    border-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+:where(button[type="submit"]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 8px;
+    transition: transform 0.25s var(--ease-out), background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+:where(button[type="submit"]):hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(197, 160, 89, 0.3);
+}
+
+:where([data-theme="dark"] button[type="submit"]) {
+    color: var(--bg-color);
+}
+
+.text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.release-info p {
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+}
+
+/* Centered card grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 320px));
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+/* Merch */
+.merch-page {
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+    min-height: 60vh;
+}
+
+.merch-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    text-align: left;
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.merch-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--accent-soft);
+}
+
+.merch-card-media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: var(--bg-color);
+}
+
+.merch-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+}
+
+.merch-card:hover .merch-card-media img {
+    transform: scale(1.06);
+}
+
+.merch-card-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    opacity: 0.45;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.merch-card-placeholder .hgi {
+    font-size: 3rem;
+}
+
+.merch-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.merch-card-body h3 {
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+}
+
+.merch-card-price {
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.merch-card .buy-btn {
+    margin-top: auto;
+    width: 100%;
+}
+
+.coming-soon-card {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    text-align: center;
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+}
+
+.coming-soon-icon {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.coming-soon-card h2 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.coming-soon-text {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin-bottom: 2rem;
+}
+
+.coming-soon-notify {
+    padding: 1.5rem;
+    border: 1px dashed var(--accent-soft);
+    border-radius: 10px;
+}
+
+.coming-soon-notify p {
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+/* Forms */
+input,
+textarea,
+select {
+    border-radius: 8px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.18);
+}
+
+/* Nav underline */
+.nav-links a {
+    position: relative;
+    padding: 0.25rem 0;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background-color: var(--accent-color);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s var(--ease-out);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    transform: scaleX(1);
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Misc icon sizing */
+#back-to-top {
+    font-size: 1.3rem;
+}
+
+.toast .hgi {
+    font-size: 1.2rem;
+    margin-top: 0.1rem;
+}
+
+.delete-icon .hgi {
+    font-size: 1.1rem;
+}
+
+.side-link .hgi {
+    font-size: 1.1rem;
+    width: 1.2em;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .section-title {
+        margin-top: 3rem;
+    }
+
+    .album-images-container {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
     }
 }

@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
@@ -37,14 +37,16 @@
                         <input type="password" id="password" name="password" required autocomplete="current-password"
                             {% if username %}autofocus{% endif %}>
                         <button type="button" class="password-toggle" aria-label="Show password"
-                            onclick="togglePassword(this)"><i class="fa-regular fa-eye"></i></button>
+                            onclick="togglePassword(this)"><i class="hgi hgi-stroke hgi-view"></i></button>
                     </div>
                 </div>
 
-                <button type="submit" class="login-btn" data-loading-text="Verifying">Authorize Access</button>
+                <button type="submit" class="login-btn" data-loading-text="Verifying"><i
+                        class="hgi hgi-stroke hgi-lock-key" aria-hidden="true"></i> Authorize Access</button>
             </form>
 
-            <a href="{{ url_for('home') }}" class="back-link">← Return to Public Site</a>
+            <a href="{{ url_for('home') }}" class="back-link"><i class="hgi hgi-stroke hgi-arrow-left-02"
+                    aria-hidden="true"></i> Return to Public Site</a>
         </div>
     </div>
 
@@ -54,7 +56,7 @@
             var show = input.type === 'password';
             input.type = show ? 'text' : 'password';
             btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
-            btn.innerHTML = show ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+            btn.innerHTML = show ? '<i class="hgi hgi-stroke hgi-view-off-slash"></i>' : '<i class="hgi hgi-stroke hgi-view"></i>';
         }
     </script>
 </body>

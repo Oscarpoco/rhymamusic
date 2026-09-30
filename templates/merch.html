@@ -3,70 +3,66 @@
 {% block title %}Official Website of Rhyma | Merch{% endblock %}
 
 {% block content %}
-<section class="container"
-    style="padding: 6rem 2rem; text-align: center; min-height: 60vh; display: flex; flex-direction: column; align-items: center;">
-    <h1 style="margin-bottom: 2rem;">Merchandise</h1>
+<section class="container merch-page">
+    <header class="page-header">
+        <h1>Merchandise</h1>
+        <p class="page-subtitle">Official Rhyma Apparel & Accessories</p>
+    </header>
 
     {% if products %}
-    <div class="merch-grid"
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; width: 100%; max-width: 1200px;">
+    <div class="card-grid merch-grid">
         {% for product in products %}
-        <div class="merch-item"
-            style="background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; transition: transform 0.3s ease;">
-            {% if product.image_url %}
-            <div class="product-img"
-                style='height: 300px; background-image: url("{{ url_for("static", filename=product.image_url) }}"); background-size: cover; background-position: center;'>
-            </div>
-            {% else %}
-            <div class="product-img"
-                style="height: 300px; background-color: #333; display: flex; align-items: center; justify-content: center;">
-                <span style="color: #666;">No Image Available</span>
-            </div>
-            {% endif %}
-            <div class="product-info" style="padding: 1.5rem; text-align: left;">
-                <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem;">{{ product.name }}</h3>
-                <p style="color: var(--accent-color); font-weight: bold; font-size: 1.1rem; margin-bottom: 1rem;">R {{
-                    '%.2f' | format(product.price) }}</p>
-                <div style="display: flex; gap: 0.5rem;">
-                    <button type="button" class="buy-btn order-btn" style="flex: 1;"
-                        data-name="{{ product.name }}" data-price="{{ '%.2f' | format(product.price) }}">
-                        <i class="fa-regular fa-envelope"></i> Order via Email
-                    </button>
+        <article class="merch-card">
+            <div class="merch-card-media">
+                {% if product.image_url %}
+                <img src="{{ url_for('static', filename=product.image_url) }}" alt="{{ product.name }}" loading="lazy"
+                    decoding="async">
+                {% else %}
+                <div class="merch-card-placeholder">
+                    <i class="hgi hgi-stroke hgi-t-shirt" aria-hidden="true"></i>
+                    <span>No Image Available</span>
                 </div>
+                {% endif %}
             </div>
-        </div>
+            <div class="merch-card-body">
+                <h3>{{ product.name }}</h3>
+                <p class="merch-card-price">R {{ '%.2f' | format(product.price) }}</p>
+                <button type="button" class="buy-btn order-btn" data-name="{{ product.name }}"
+                    data-price="{{ '%.2f' | format(product.price) }}">
+                    <i class="hgi hgi-stroke hgi-mail-01" aria-hidden="true"></i> Order via Email
+                </button>
+            </div>
+        </article>
         {% endfor %}
     </div>
     {% else %}
-    <div class="coming-soon-container" style="max-width: 600px;">
-        <h2 style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1.5rem;">Coming Soon</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.8;">
+    <div class="coming-soon-card">
+        <i class="hgi hgi-stroke hgi-shopping-bag-01 coming-soon-icon" aria-hidden="true"></i>
+        <h2>Coming Soon</h2>
+        <p class="coming-soon-text">
             Exclusive <strong>Rhyma</strong> apparel and accessories are currently in production.
             Prices will be listed in ZAR (Rands).
         </p>
 
-        <div style="background-color: var(--secondary-bg); padding: 2rem; border: 1px solid var(--border-color);">
-            <p style="margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Get
-                Notified When The Drop Goes Live</p>
-
-            <a href="#" class="buy-btn" style="display: inline-block; text-decoration: none; padding: 1rem 2rem;"
-                onclick="handleNotifyClick(event)">
-                Notify Me via Email
+        <div class="coming-soon-notify">
+            <p>Get Notified When The Drop Goes Live</p>
+            <a href="#" class="buy-btn buy-btn-solid" onclick="handleNotifyClick(event)">
+                <i class="hgi hgi-stroke hgi-notification-01" aria-hidden="true"></i> Notify Me via Email
             </a>
-
-            <script>
-                function handleNotifyClick(event) {
-                    event.preventDefault();
-                    openMailDraft(
-                        'newrelease@rhymamusic.co.za',
-                        'Notify Me: Rhyma Merch Drop',
-                        'Hi Rhyma Team,\r\n\r\nPlease notify me when the new merchandise drop goes live.\r\n\r\nThanks!'
-                    );
-                    showCustomAlert('Almost Done', 'Your email app should now open with your request ready. Just press send and we will let you know when the drop goes live.');
-                }
-            </script>
         </div>
     </div>
+
+    <script>
+        function handleNotifyClick(event) {
+            event.preventDefault();
+            openMailDraft(
+                'newrelease@rhymamusic.co.za',
+                'Notify Me: Rhyma Merch Drop',
+                'Hi Rhyma Team,\r\n\r\nPlease notify me when the new merchandise drop goes live.\r\n\r\nThanks!'
+            );
+            showCustomAlert('Almost Done', 'Your email app should now open with your request ready. Just press send and we will let you know when the drop goes live.');
+        }
+    </script>
     {% endif %}
 </section>
 

@@ -3,7 +3,7 @@
 <div class="toast-stack" role="status" aria-live="polite">
     {% for category, message in messages %}
     <div class="toast toast-{{ 'error' if category == 'error' else 'success' }}">
-        <i class="fa-solid {{ 'fa-circle-exclamation' if category == 'error' else 'fa-circle-check' }}" aria-hidden="true"></i>
+        <i class="hgi hgi-stroke {{ 'hgi-alert-circle' if category == 'error' else 'hgi-checkmark-circle-02' }}" aria-hidden="true"></i>
         <span>{{ message }}</span>
         <button type="button" class="toast-close" aria-label="Dismiss">&times;</button>
     </div>

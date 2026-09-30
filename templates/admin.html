@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
@@ -22,14 +22,14 @@
     <div class="admin-wrapper">
         <aside class="admin-sidebar">
             <div class="admin-logo">DASHBOARD</div>
-            <p class="admin-user"><i class="fa-regular fa-user"></i> {{ current_user.username }}</p>
+            <p class="admin-user"><i class="hgi hgi-stroke hgi-user-circle"></i> {{ current_user.username }}</p>
             <nav>
-                <a href="#music" class="side-link"><i class="fa-solid fa-music"></i> Music</a>
-                <a href="#merch" class="side-link"><i class="fa-solid fa-shirt"></i> Merch</a>
+                <a href="#music" class="side-link"><i class="hgi hgi-stroke hgi-music-note-03"></i> Music</a>
+                <a href="#merch" class="side-link"><i class="hgi hgi-stroke hgi-t-shirt"></i> Merch</a>
                 <a href="{{ url_for('home') }}" class="side-link" target="_blank" rel="noopener"><i
-                        class="fa-solid fa-arrow-up-right-from-square"></i> View Site</a>
+                        class="hgi hgi-stroke hgi-link-square-02"></i> View Site</a>
                 <a href="{{ url_for('logout') }}" class="side-link logout"><i
-                        class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                        class="hgi hgi-stroke hgi-logout-03"></i> Logout</a>
             </nav>
         </aside>
 
@@ -41,7 +41,7 @@
                         <input type="text" name="title" placeholder="Track Name" maxlength="100" required>
                         <input type="url" name="url" placeholder="Audio / Streaming Link" maxlength="200">
                     </div>
-                    <button type="submit" class="bronze-btn" data-loading-text="Saving">Save Track</button>
+                    <button type="submit" class="bronze-btn" data-loading-text="Saving"><i class="hgi hgi-stroke hgi-add-circle" aria-hidden="true"></i> Save Track</button>
                 </form>
 
                 {% if tracks %}
@@ -55,7 +55,7 @@
                         </span>
                         {% if track.audio_url %}
                         <a href="{{ track.audio_url }}" target="_blank" rel="noopener" class="admin-link"
-                            title="Open link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            title="Open link"><i class="hgi hgi-stroke hgi-link-square-02"></i></a>
                         {% endif %}
                     </div>
                     {% endfor %}
@@ -67,7 +67,7 @@
                 <h3>Spotify Integration</h3>
                 <form action="{{ url_for('sync_spotify_route') }}" method="POST" class="admin-form admin-inline-form">
                     <button type="submit" class="bronze-btn btn-spotify" data-loading-text="Syncing with Spotify">
-                        <i class="fa-brands fa-spotify"></i> Sync Latest Releases from Spotify</button>
+                        <i class="hgi hgi-stroke hgi-spotify"></i> Sync Latest Releases from Spotify</button>
                 </form>
 
                 <form action="{{ url_for('update_settings') }}" method="POST" class="admin-form">
@@ -92,7 +92,7 @@
                 {% endif %}
                 <form action="{{ url_for('sync_youtube_route') }}" method="POST" class="admin-form admin-inline-form">
                     <button type="submit" class="bronze-btn btn-youtube" data-loading-text="Syncing with YouTube">
-                        <i class="fa-brands fa-youtube"></i> Sync Latest Video from YouTube</button>
+                        <i class="hgi hgi-stroke hgi-youtube"></i> Sync Latest Video from YouTube</button>
                 </form>
 
                 <form action="{{ url_for('update_youtube_settings') }}" method="POST" class="admin-form">
@@ -125,8 +125,8 @@
                         <img id="merch-preview" class="merch-preview" alt="" hidden>
                     </div>
 
-                    <button type="submit" class="bronze-btn" data-loading-text="Uploading">Upload & Save
-                        Product</button>
+                    <button type="submit" class="bronze-btn" data-loading-text="Uploading"><i class="hgi hgi-stroke hgi-upload-01" aria-hidden="true"></i> Upload &
+                        Save Product</button>
                 </form>
 
                 <div class="current-list">
@@ -137,7 +137,7 @@
                         <form action="{{ url_for('delete_merch', id=product.id) }}" method="POST"
                             onsubmit="return confirm('Delete this product?');">
                             <button type="submit" class="delete-icon" aria-label="Delete {{ product.name }}"
-                                title="Delete">×</button>
+                                title="Delete"><i class="hgi hgi-stroke hgi-delete-02" aria-hidden="true"></i></button>
                         </form>
                     </div>
                     {% else %}

@@ -23,7 +23,7 @@
             <textarea id="message" name="message" rows="5" maxlength="3000" required></textarea>
         </div>
 
-        <button type="submit">Send Message</button>
+        <button type="submit"><i class="hgi hgi-stroke hgi-mail-send-01" aria-hidden="true"></i> Send Message</button>
     </form>
 
     <script>
@@ -52,19 +52,7 @@
 
     <div style="margin-top: 4rem;">
         <h3>Connect</h3>
-        <div class="social-icons" style="justify-content: center; display: flex; gap: 1rem; margin-top: 1rem;">
-            <a href="https://x.com/rhymangn" target="_blank" rel="noopener" title="X" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="https://music.apple.com/us/artist/rhyma/1232075857" target="_blank" rel="noopener" title="Apple Music" aria-label="Apple Music"><i
-                    class="fa-brands fa-apple"></i></a>
-            <a href="https://www.tiktok.com/@rhymangn" target="_blank" rel="noopener" title="TikTok" aria-label="TikTok"><i
-                    class="fa-brands fa-tiktok"></i></a>
-            <a href="https://www.instagram.com/rhymangn" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram"><i
-                    class="fa-brands fa-instagram"></i></a>
-            <a href="https://youtube.com/rhymangn" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube"><i
-                    class="fa-brands fa-youtube"></i></a>
-            <a href="https://open.spotify.com/search/RHYMA" target="_blank" rel="noopener" title="Spotify" aria-label="Spotify"><i
-                    class="fa-brands fa-spotify"></i></a>
-        </div>
+        {% with social_class='contact-social' %}{% include '_social.html' %}{% endwith %}
     </div>
 </section>
 {% endblock %}

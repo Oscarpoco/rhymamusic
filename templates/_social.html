@@ -1,0 +1,15 @@
+{% set socials = [
+    ('https://x.com/rhymangn', 'X (Twitter)', 'new-twitter'),
+    ('https://music.apple.com/us/artist/rhyma/1232075857', 'Apple Music', 'apple-music'),
+    ('https://www.tiktok.com/@rhymangn', 'TikTok', 'tiktok'),
+    ('https://www.instagram.com/rhymangn', 'Instagram', 'instagram'),
+    ('https://youtube.com/rhymangn', 'YouTube', 'youtube'),
+    ('https://open.spotify.com/search/RHYMA', 'Spotify', 'spotify'),
+] %}
+<div class="social-icons {{ social_class | default('') }}">
+    {% for url, label, icon in socials %}
+    <a href="{{ url }}" target="_blank" rel="noopener" class="social-btn" title="{{ label }}" aria-label="{{ label }}">
+        <i class="hgi hgi-stroke hgi-{{ icon }}" aria-hidden="true"></i>
+    </a>
+    {% endfor %}
+</div>
