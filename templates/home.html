@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <!-- Theme Aware Hero Images -->
+        <img src="{{ url_for('static', filename='images/rhyma(black).png') }}" alt="Rhyma"
+            class="hero-logo-img light-mode-only">
+        <img src="{{ url_for('static', filename='images/rhyma(white).png') }}" alt="Rhyma"
+            class="hero-logo-img dark-mode-only">
+        <p class="tagline">Defining the New Sound of Luxury</p>
+        <a href="{{ url_for('music') }}" class="cta-button">Listen Now</a>
+        <div class="social-icons" style="margin-top: 2rem;">
+            <a href="https://x.com/rhymangn" target="_blank" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://music.apple.com/us/artist/rhyma/1232075857" target="_blank" title="Apple Music"><i class="fa-brands fa-apple"></i></a>
+            <a href="https://www.tiktok.com/@rhymangn" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/rhymangn" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://youtube.com/rhymangn" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://open.spotify.com/search/RHYMA" target="_blank" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
+        </div>
+    </div>
+</section>
+
+<section class="featured-preview">
+    <div class="container">
+        {% if latest_single %}
+        <h2>Latest Single</h2>
+        <div class="video-container" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+            <iframe style="border-radius:12px"
+                src="{{ latest_single.audio_url | replace('https://open.spotify.com/album/', 'https://open.spotify.com/embed/album/') | replace('https://open.spotify.com/track/', 'https://open.spotify.com/embed/track/') }}?utm_source=generator"
+                width="100%" height="152" frameBorder="0" allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+            </iframe>
+        </div>
+        {% endif %}
+
+        <h2>New Release Video</h2>
+        <div class="video-container" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+            <iframe width="100%" height="352" src="https://www.youtube.com/embed/{{ latest_video.youtube_id if latest_video else 'prZ-ErkCkNw' }}" title="{{ latest_video.title if latest_video else 'New Release Video' }}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen style="border-radius: 12px; max-width: 800px;"></iframe>
+        </div>
+
+        <div class="album-section">
+            <div class="album-title-header">
+                <h3 id="album-title">Featured Projects</h3>
+            </div>
+            <div class="album-images-container">
+
+                <!-- Stand Out -->
+                <div class="album-item">
+                    <iframe style="border-radius:12px"
+                        src="https://open.spotify.com/embed/album/11G7xf6VQHjhSSCtW6FRdt?utm_source=generator"
+                        width="300" height="352" frameBorder="0" allowfullscreen=""
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy"></iframe>
+                    <a href="https://music.apple.com/za/album/stand-out/1815679533" target="_blank" class="cta-button"
+                        style="padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 1rem;">
+                        <i class="fa-brands fa-apple"></i> Stand Out
+                    </a>
+                </div>
+
+                <!-- Afro Noir -->
+                <div class="album-item">
+                    <iframe style="border-radius:12px; width:300px; height:352px;"
+                        src="https://embed.music.apple.com/us/album/afro-noir-ep/6784176778"
+                        frameBorder="0" allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                        loading="lazy"></iframe>
+                    <a href="https://music.apple.com/us/album/afro-noir-ep/6784176778" target="_blank" class="cta-button"
+                        style="padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 1rem;">
+                        <i class="fa-brands fa-apple"></i> Afro Noir
+                    </a>
+                </div>
+
+                <!-- Stamina -->
+                <div class="album-item">
+                    <iframe style="border-radius:12px"
+                        src="https://open.spotify.com/embed/album/3YUXPunrRpyRj2zv3ufbEQ?utm_source=generator"
+                        width="300" height="352" frameBorder="0" allowfullscreen=""
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy"></iframe>
+                    <a href="https://music.apple.com/za/album/stamina/1676464008" target="_blank" class="cta-button"
+                        style="padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 1rem;">
+                        <i class="fa-brands fa-apple"></i> Stamina
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="release-info">
+            <p>Out Now on All Platforms</p>
+            <a href="https://youtube.com/rhymangn" target="_blank" class="text-link">Stream on YouTube <i
+                    class="fa-brands fa-youtube"></i> &rarr;</a>
+        </div>
+    </div>
+
+    <!-- Modal for album management -->
+    <div id="album-modal" class="album-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Album Management</h3>
+            <div class="modal-options">
+                <button class="modal-btn" data-action="add">1. Add new album title</button>
+                <button class="modal-btn" data-action="change">2. Change album title</button>
+                <button class="modal-btn" data-action="remove">3. Remove album title</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change album title modal -->
+    <div id="change-album-modal" class="album-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Change Album Title</h3>
+            <p>Select the album title you want to change it to:</p>
+            <select id="album-select">
+                <option value="">-- Select Album --</option>
+            </select>
+            <div class="modal-section">
+                <label for="change-image-input">Select Image:</label>
+                <input type="file" id="change-image-input" accept="image/*" multiple>
+                <div id="change-selected-images" class="selected-images-preview"></div>
+            </div>
+            <button id="confirm-change-btn" class="modal-btn">Confirm</button>
+        </div>
+    </div>
+
+    <!-- Add new album title modal -->
+    <div id="add-album-modal" class="album-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add New Album Title</h3>
+            <input type="text" id="new-album-input" placeholder="Enter new album title">
+            <div class="modal-section">
+                <label for="add-image-input">Select Images:</label>
+                <input type="file" id="add-image-input" accept="image/*" multiple>
+                <div id="add-selected-images" class="selected-images-preview"></div>
+            </div>
+            <button id="confirm-add-btn" class="modal-btn">Add Album</button>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
