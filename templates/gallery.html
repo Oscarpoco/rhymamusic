@@ -14,7 +14,7 @@
         {% for img in images %}
         <button type="button" class="gallery-item" data-index="{{ loop.index0 }}"
             data-src="{{ img.url }}" data-title="{{ img.title }}" aria-label="View {{ img.title }} full screen">
-            <img src="{{ img.url }}" alt="{{ img.title }}" loading="lazy" decoding="async"
+            <img src="{{ img.thumb }}" alt="{{ img.title }}" loading="lazy" decoding="async" width="576" height="720"
                 onload="this.classList.add('is-loaded')" onerror="this.classList.add('is-loaded')">
             <div class="gallery-overlay">
                 <span class="gallery-overlay-title">{{ img.title }}</span>

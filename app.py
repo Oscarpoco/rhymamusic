@@ -248,7 +248,8 @@ def get_gallery_data():
     return [
         {
             'id': i,
-            'url': url_for('static', filename=f'images/gallery/rhyma_gallery_{i}.jpg'),
+            'url': url_for('static', filename=f'images/gallery/rhyma_gallery_{i}.webp'),
+            'thumb': url_for('static', filename=f'images/gallery/thumbs/rhyma_gallery_{i}.webp'),
             'title': title,
         }
         for i, title in enumerate(GALLERY_ITEMS, start=1)

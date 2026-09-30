@@ -2,21 +2,38 @@
 
 {% block content %}
 <section class="hero">
+    <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
     <div class="hero-content">
+        <p class="hero-eyebrow hero-anim" style="--d: 0ms">
+            <i class="hgi hgi-stroke hgi-sparkles" aria-hidden="true"></i> Afro Noir EP &middot; Out Now
+        </p>
         <!-- Theme Aware Hero Images -->
-        <img src="{{ url_for('static', filename='images/rhyma(black).png') }}" alt="Rhyma"
-            class="hero-logo-img light-mode-only">
-        <img src="{{ url_for('static', filename='images/rhyma(white).png') }}" alt="Rhyma"
-            class="hero-logo-img dark-mode-only">
-        <p class="tagline">Defining the New Sound of Luxury</p>
-        <a href="{{ url_for('music') }}" class="cta-button">
-            <i class="hgi hgi-stroke hgi-headphones" aria-hidden="true"></i> Listen Now
-        </a>
-        {% with social_class='hero-social' %}{% include '_social.html' %}{% endwith %}
+        <img src="{{ url_for('static', filename='images/rhyma(black).webp') }}" alt="Rhyma"
+            class="hero-logo-img light-mode-only hero-anim hero-anim-logo" style="--d: 120ms" width="1000" height="277"
+            fetchpriority="high">
+        <img src="{{ url_for('static', filename='images/rhyma(white).webp') }}" alt="Rhyma"
+            class="hero-logo-img dark-mode-only hero-anim hero-anim-logo" style="--d: 120ms" width="1000" height="277"
+            fetchpriority="high">
+        <p class="tagline hero-anim" style="--d: 320ms">Defining the New Sound of Luxury</p>
+        <div class="hero-actions hero-anim" style="--d: 480ms">
+            <a href="{{ url_for('music') }}" class="cta-button cta-shine">
+                <i class="hgi hgi-stroke hgi-headphones" aria-hidden="true"></i> Listen Now
+            </a>
+            <a href="{{ url_for('bookings') }}" class="cta-button cta-ghost">
+                <i class="hgi hgi-stroke hgi-calendar-03" aria-hidden="true"></i> Book Rhyma
+            </a>
+        </div>
+        <div class="hero-anim" style="--d: 640ms">
+            {% with social_class='hero-social' %}{% include '_social.html' %}{% endwith %}
+        </div>
     </div>
+    <a href="#featured" class="scroll-hint" aria-label="Scroll to latest releases" data-no-loader>
+        <i class="hgi hgi-stroke hgi-mouse-scroll-01" aria-hidden="true"></i>
+    </a>
 </section>
 
-<section class="featured-preview">
+<section class="featured-preview" id="featured">
     <div class="container">
         {% if latest_single and latest_single.audio_url and 'open.spotify.com/' in latest_single.audio_url %}
         <h2 class="section-title">Latest Single</h2>
@@ -30,13 +47,16 @@
         {% endif %}
 
         <h2 class="section-title">New Release Video</h2>
+        {% set video_id = latest_video.youtube_id if latest_video else default_youtube_id %}
+        {% set video_title = latest_video.title if latest_video else 'New Release Video' %}
         <div class="media-frame media-frame-video">
-            <iframe width="100%" height="100%"
-                src="https://www.youtube.com/embed/{{ latest_video.youtube_id if latest_video else default_youtube_id }}"
-                title="{{ latest_video.title if latest_video else 'New Release Video' }}" frameborder="0"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
+            <button type="button" class="yt-lite" data-id="{{ video_id }}" data-title="{{ video_title }}"
+                aria-label="Play video: {{ video_title }}">
+                <img src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg" alt="" loading="lazy"
+                    decoding="async" width="480" height="360">
+                <span class="yt-lite-play" aria-hidden="true"><i class="hgi hgi-stroke hgi-play"></i></span>
+                <span class="yt-lite-title">{{ video_title }}</span>
+            </button>
         </div>
 
         <div class="album-section">

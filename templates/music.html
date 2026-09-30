@@ -4,6 +4,10 @@
 
 {% block content %}
 <div class="container music-page">
+    <header class="page-header">
+        <h1>Music</h1>
+        <p class="page-subtitle">Stream The Sound Of Luxury</p>
+    </header>
 
     <!-- 1. Top Performing -->
     <section class="top-tracks">
@@ -45,16 +49,17 @@
     <!-- 3. Upcoming/Unreleased (Hype) -->
     <section class="hype-section">
         <h2>Upcoming Drop</h2>
-        <div class="countdown-container" style="text-align: center;">
-            <p class="hype-text" id="drop-announcement" style="font-size: 1.5rem; margin: 1rem 0;">Next Single Drops In:</p>
-            <div id="countdown-timer" style="display: flex; justify-content: center; gap: 1rem; font-size: 2rem; font-weight: bold; margin-bottom: 2rem;">
+        <div class="countdown-container">
+            <p class="hype-text" id="drop-announcement">Next Single Drops In:</p>
+            <div id="countdown-timer" class="countdown-display">
                 <!-- Timer will be injected here -->
             </div>
-            
+
             <form id="waitlistForm" class="presave-form" onsubmit="handleWaitlistSubmit(event)">
                 <input type="email" name="email" placeholder="Enter your email to join the waitlist" required
-                    style="padding: 1rem; border: none; min-width: 250px; color: var(--text-color); background-color: var(--bg-color); border-radius: 8px;">
-                <button type="submit" style="padding: 1rem 2rem; border: none; background: var(--accent-color); color: #fff; border-radius: 8px; cursor: pointer; font-weight: bold;"><i class="hgi hgi-stroke hgi-notification-01" aria-hidden="true"></i> Notify Me</button>
+                    autocomplete="email">
+                <button type="submit"><i class="hgi hgi-stroke hgi-notification-01" aria-hidden="true"></i> Notify
+                    Me</button>
             </form>
         </div>
     </section>
@@ -100,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let nextDrop = dropDates.find(date => date > now);
 
         if (!nextDrop) {
-            timerElement.innerHTML = "<div>All March singles have dropped!</div>";
+            timerElement.innerHTML = '<div class="count-done"><i class="hgi hgi-stroke hgi-checkmark-circle-02" aria-hidden="true"></i> All March singles have dropped!</div>';
             announcementElement.innerText = "The Drops Are Complete";
             if (timerId) clearInterval(timerId);
             return false;
@@ -113,23 +118,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        timerElement.innerHTML = `
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <span>${days}</span><span style="font-size: 0.8rem; font-weight: normal;">Days</span>
-            </div>
-            <span>:</span>
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <span>${hours.toString().padStart(2, '0')}</span><span style="font-size: 0.8rem; font-weight: normal;">Hours</span>
-            </div>
-            <span>:</span>
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <span>${minutes.toString().padStart(2, '0')}</span><span style="font-size: 0.8rem; font-weight: normal;">Minutes</span>
-            </div>
-            <span>:</span>
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <span>${seconds.toString().padStart(2, '0')}</span><span style="font-size: 0.8rem; font-weight: normal;">Seconds</span>
-            </div>
-        `;
+        const pad = n => n.toString().padStart(2, '0');
+        timerElement.innerHTML = [
+            [days, 'Days'], [pad(hours), 'Hours'], [pad(minutes), 'Minutes'], [pad(seconds), 'Seconds']
+        ].map(([value, label]) =>
+            `<div class="count-box"><span class="count-value">${value}</span><span class="count-label">${label}</span></div>`
+        ).join('');
     }
 
     // Update timer immediately, then every second
