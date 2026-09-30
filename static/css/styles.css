@@ -1015,7 +1015,7 @@ iframe.embed-loading {
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.9rem 1rem;
-    background: var(--bg-color);
+    background: var(--secondary-bg);
     color: var(--text-color);
     border: 1px solid var(--border-color);
     border-left: 4px solid var(--accent-color);
